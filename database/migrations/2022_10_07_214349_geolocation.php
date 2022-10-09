@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('geolocations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->tinyInteger('type')->default(0); // 0 normal 1 admin 2 delivery_man 
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->unsignedBigInteger('user_id');
+            $table->decimal('lat', $precision = 11, $scale = 8);
+            $table->decimal('lon', $precision = 11, $scale = 8);
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
+            
+            
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('geolocations');
     }
 };
